@@ -1,6 +1,6 @@
-module github.com/livebud/tailwind
+module github.com/RichDom2185/go-tailwind
 
-go 1.19
+go 1.20
 
 require (
 	github.com/evanw/esbuild v0.15.13
