@@ -14,16 +14,17 @@ import (
 //go:embed asset/tailwind.js
 var tailwindjs string
 
-func New(vm js.VM) *Processor {
+func New(vm js.VM, enablePreflight bool) *Processor {
 	_, err := vm.Evaluate(context.Background(), "asset/tailwind.js", tailwindjs)
 	if err != nil {
 		panic(err)
 	}
-	return &Processor{vm}
+	return &Processor{vm, enablePreflight}
 }
 
 type Processor struct {
-	vm js.VM
+	vm              js.VM
+	enablePreflight bool
 }
 
 func (p *Processor) Process(ctx context.Context, name, src string) (css string, err error) {
@@ -32,7 +33,10 @@ func (p *Processor) Process(ctx context.Context, name, src string) (css string, 
 			extension: %q,
 			raw: %q,
 		}],
-	})`, path.Ext(name), src)
+		corePlugins: {
+			preflight: %t,
+		},
+	})`, path.Ext(name), src, p.enablePreflight)
 	css, err = p.vm.Evaluate(ctx, name, expr)
 	if err != nil {
 		return "", fmt.Errorf("tailwind: %w", err)

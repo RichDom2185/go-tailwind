@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/RichDom2185/go-tailwind"
 	"github.com/livebud/js"
 	v8 "github.com/livebud/js/v8"
-	"github.com/livebud/tailwind"
 	"github.com/matryer/is"
 )
 

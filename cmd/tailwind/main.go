@@ -6,9 +6,9 @@ import (
 	"os"
 	"path"
 
+	"github.com/RichDom2185/go-tailwind"
 	"github.com/livebud/js"
 	v8 "github.com/livebud/js/v8"
-	"github.com/livebud/tailwind"
 )
 
 func main() {
@@ -31,7 +31,7 @@ func run() error {
 	if err != nil {
 		return fmt.Errorf("unable to load v8: %w", err)
 	}
-	compiler := tailwind.New(vm)
+	compiler := tailwind.New(vm, true)
 	data, err := os.ReadFile(fpath)
 	if err != nil {
 		return fmt.Errorf("unable to read %s file: %w", path.Ext(fpath), err)

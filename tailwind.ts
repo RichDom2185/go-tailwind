@@ -4,6 +4,13 @@ import postcss from 'postcss'
 import cssnano from 'cssnano'
 
 export function process(config: Config): Promise<string> {
+  let enablePreflight : boolean;
+  if (Array.isArray(config.corePlugins)) {
+    enablePreflight = config.corePlugins.includes('preflight')
+  } else {
+    enablePreflight = config.corePlugins?.preflight ?? false;
+  }
+
   return postcss(
     tailwindcss(config),
     autoprefixer({
@@ -11,7 +18,7 @@ export function process(config: Config): Promise<string> {
     }),
     cssnano()
   ).process(`
-    @tailwind base;
+    ${enablePreflight ? "@tailwind base;": ""}
     @tailwind components;
     @tailwind utilities;
   `, {
